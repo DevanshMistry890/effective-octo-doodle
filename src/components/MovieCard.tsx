@@ -1,103 +1,131 @@
-import { Link } from 'react-router-dom';
-import tmdbApi from '../services/tmdbApi';
-import localStorageService from '../services/localStorage';
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import type { TMDBMovie } from '../types/movie'
+import { tmdbApi } from '../services/tmdbApi'
+import { localStorageService } from '../services/localStorage'
+import '../assets/css/MovieCard.css'
 
-const MovieCard = ({ movie, onMovieUpdate, showRemoveButtons = false }) => {
-  const isWatched = localStorageService.isMovieWatched(movie.id);
-  const isInWantToWatch = localStorageService.isMovieInWantToWatch(movie.id);
+interface MovieCardProps {
+  movie: TMDBMovie
+  showRemoveButtons?: boolean
+  onRemove?: (movieId: number) => void
+}
 
-  const handleMarkWatched = (e) => {
-    e.preventDefault();
-    const success = localStorageService.addToWatched(movie);
-    if (success && onMovieUpdate) {
-      onMovieUpdate();
+const MovieCard: React.FC<MovieCardProps> = ({
+  movie,
+  showRemoveButtons = false,
+  onRemove,
+}) => {
+  const [isWatched, setIsWatched] = useState(false)
+  const [isInWantToWatch, setIsInWantToWatch] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    setIsWatched(localStorageService.isMovieWatched(movie.id))
+    setIsInWantToWatch(localStorageService.isMovieInWantToWatch(movie.id))
+  }, [movie.id])
+
+  const handleMarkAsWatched = async () => {
+    setIsLoading(true)
+    const success = localStorageService.addToWatched(movie)
+    if (success) {
+      setIsWatched(true)
+      setIsInWantToWatch(false)
     }
-  };
+    setIsLoading(false)
+  }
 
-  const handleAddToWantToWatch = (e) => {
-    e.preventDefault();
-    const success = localStorageService.addToWantToWatch(movie);
-    if (success && onMovieUpdate) {
-      onMovieUpdate();
+  const handleAddToWantToWatch = async () => {
+    setIsLoading(true)
+    const success = localStorageService.addToWantToWatch(movie)
+    if (success) {
+      setIsInWantToWatch(true)
     }
-  };
+    setIsLoading(false)
+  }
 
-  const handleRemoveFromWatched = (e) => {
-    e.preventDefault();
-    const success = localStorageService.removeFromWatched(movie.id);
-    if (success && onMovieUpdate) {
-      onMovieUpdate();
+  const handleRemoveFromWatched = () => {
+    const success = localStorageService.removeFromWatched(movie.id)
+    if (success) {
+      setIsWatched(false)
+      onRemove?.(movie.id)
     }
-  };
+  }
 
-  const handleRemoveFromWantToWatch = (e) => {
-    e.preventDefault();
-    const success = localStorageService.removeFromWantToWatch(movie.id);
-    if (success && onMovieUpdate) {
-      onMovieUpdate();
+  const handleRemoveFromWantToWatch = () => {
+    const success = localStorageService.removeFromWantToWatch(movie.id)
+    if (success) {
+      setIsInWantToWatch(false)
+      onRemove?.(movie.id)
     }
-  };
+  }
 
-  const formatRating = (rating) => {
-    return rating ? rating.toFixed(1) : 'N/A';
-  };
+  const formatYear = (dateString: string): string => {
+    return new Date(dateString).getFullYear().toString()
+  }
 
-  const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.getFullYear();
-  };
+  const formatRating = (rating: number): string => {
+    return `★ ${rating.toFixed(1)}`
+  }
+
+  const truncateText = (text: string, maxLength: number): string => {
+    if (text.length <= maxLength) return text
+    return text.substring(0, maxLength).trim() + '...'
+  }
+
+  const posterUrl = tmdbApi.getPosterUrl(movie.poster_path)
 
   return (
-    <div className="movie-card">
-      <Link to={`/movie/${movie.id}`} className="movie-link">
-        <div className="movie-poster">
-          {movie.poster_path ? (
-            <img
-              src={tmdbApi.getImageUrl(movie.poster_path)}
-              alt={movie.title}
-              loading="lazy"
-            />
-          ) : (
-            <div className="no-poster">
-              <span>No Image</span>
-            </div>
-          )}
-          <div className="movie-rating">
-            <span>★ {formatRating(movie.vote_average)}</span>
-          </div>
-        </div>
-      </Link>
-      
-      <div className="movie-info">
-        <Link to={`/movie/${movie.id}`} className="movie-link">
-          <h3 className="movie-title">{movie.title}</h3>
+    <div className='movie-card'>
+      <div className='movie-poster'>
+        <Link to={`/movie/${movie.id}`}>
+          <img
+            src={posterUrl}
+            alt={movie.title}
+            onError={(e) => {
+              e.currentTarget.src = '/no-image-placeholder.jpg'
+            }}
+          />
         </Link>
-        <p className="movie-year">{formatDate(movie.release_date)}</p>
-        <p className="movie-overview">
-          {movie.overview ? 
-            (movie.overview.length > 120 ? 
-              `${movie.overview.substring(0, 120)}...` : 
-              movie.overview
-            ) : 
-            'No description available.'
-          }
-        </p>
-        
-        <div className="movie-actions">
+
+        {(isWatched || isInWantToWatch) && (
+          <div className='movie-status-badges'>
+            {isWatched && <span className='status-badge watched'>Watched</span>}
+            {isInWantToWatch && (
+              <span className='status-badge want-to-watch'>Want to Watch</span>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className='movie-info'>
+        <h3 className='movie-title'>
+          <Link to={`/movie/${movie.id}`}>{movie.title}</Link>
+        </h3>
+
+        <div className='movie-meta'>
+          <span className='movie-year'>{formatYear(movie.release_date)}</span>
+          <span className='movie-rating'>
+            {formatRating(movie.vote_average)}
+          </span>
+        </div>
+
+        <p className='movie-overview'>{truncateText(movie.overview, 120)}</p>
+
+        <div className='movie-actions'>
           {showRemoveButtons ? (
             <>
               {isWatched && (
-                <button 
-                  className="btn btn-remove"
+                <button
+                  className='btn btn-remove'
                   onClick={handleRemoveFromWatched}
                 >
                   Remove from Watched
                 </button>
               )}
               {isInWantToWatch && (
-                <button 
-                  className="btn btn-remove"
+                <button
+                  className='btn btn-remove'
                   onClick={handleRemoveFromWantToWatch}
                 >
                   Remove from Want to Watch
@@ -106,34 +134,30 @@ const MovieCard = ({ movie, onMovieUpdate, showRemoveButtons = false }) => {
             </>
           ) : (
             <>
+              {!isWatched && (
+                <button
+                  className='btn btn-primary'
+                  onClick={handleMarkAsWatched}
+                  disabled={isLoading}
+                >
+                  Mark as Watched
+                </button>
+              )}
               {!isWatched && !isInWantToWatch && (
-                <>
-                  <button 
-                    className="btn btn-primary"
-                    onClick={handleMarkWatched}
-                  >
-                    Mark as Watched
-                  </button>
-                  <button 
-                    className="btn btn-secondary"
-                    onClick={handleAddToWantToWatch}
-                  >
-                    Add to Want to Watch
-                  </button>
-                </>
-              )}
-              {isWatched && (
-                <span className="status-badge watched">Watched</span>
-              )}
-              {isInWantToWatch && (
-                <span className="status-badge want-to-watch">Want to Watch</span>
+                <button
+                  className='btn btn-secondary'
+                  onClick={handleAddToWantToWatch}
+                  disabled={isLoading}
+                >
+                  Add to Want to Watch
+                </button>
               )}
             </>
           )}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MovieCard;
+export default MovieCard
