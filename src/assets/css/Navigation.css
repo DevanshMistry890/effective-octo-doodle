@@ -1,6 +1,6 @@
 .navigation {
   background: var(--gradient-primary);
-  backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--blur-backdrop);
   box-shadow: var(--shadow-lg);
   border-bottom: 1px solid var(--glass-border);
   position: sticky;
@@ -49,7 +49,7 @@
   font-weight: 600;
   font-size: 0.95rem;
   position: relative;
-  backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--blur-backdrop);
   border: 1px solid transparent;
   min-height: 44px;
   display: flex;

@@ -4,7 +4,6 @@
   margin: 0 auto;
   padding: 20px 16px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
 /* Import shared page header styles */
@@ -19,7 +18,7 @@
   flex-wrap: wrap;
   padding: 12px;
   background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(20px);
+  backdrop-filter: var(--blur-backdrop);
   border-radius: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -110,6 +109,35 @@
   justify-content: center;
   padding: 60px 20px;
   text-align: center;
+  min-height: 400px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 24px;
+  opacity: 0.7;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.empty-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.empty-actions .btn {
+  min-width: 140px;
 }
 
 .loading-container p,

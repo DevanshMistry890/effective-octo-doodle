@@ -128,8 +128,43 @@ const Home: React.FC = () => {
 
   const renderEmptyState = () => (
     <div className='empty-container'>
-      <h3>No movies found</h3>
-      <p>We couldn't find any movies in this category.</p>
+      <div className='empty-icon' role="img" aria-label="Empty state">
+        🎬
+      </div>
+      <h3>No Movies Available</h3>
+      <p>
+        {!import.meta.env.VITE_TMDB_API_KEY ? (
+          <>
+            No API key is configured and mock data is empty. 
+            <br />
+            Please add your TMDB API key or add some mock data to see movies.
+          </>
+        ) : (
+          <>
+            We couldn't find any movies in the "{categories.find(c => c.key === activeCategory)?.label}" category.
+            <br />
+            Try switching to a different category or check your internet connection.
+          </>
+        )}
+      </p>
+      <div className="empty-actions">
+        <button
+          className='btn btn-primary'
+          onClick={() => fetchMovies(activeCategory, 1, true)}
+          disabled={loading}
+        >
+          {loading ? 'Retrying...' : 'Try Again'}
+        </button>
+        {categories.length > 1 && activeCategory !== 'popular' && (
+          <button
+            className='btn btn-secondary'
+            onClick={() => handleCategoryChange('popular')}
+            disabled={loading}
+          >
+            View Popular Movies
+          </button>
+        )}
+      </div>
     </div>
   )
 

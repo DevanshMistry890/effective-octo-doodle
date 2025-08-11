@@ -1,6 +1,6 @@
 .movie-card {
   background: var(--gradient-card);
-  backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--blur-backdrop);
   border: 1px solid var(--glass-border);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-md);
@@ -80,7 +80,7 @@
   font-weight: 700;
   text-align: center;
   color: white;
-  backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--blur-backdrop);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: var(--shadow-sm);
   text-transform: uppercase;
@@ -169,7 +169,7 @@
   justify-content: center;
   text-transform: uppercase;
   letter-spacing: 0.025em;
-  backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--blur-backdrop);
 }
 
 .btn:disabled {
