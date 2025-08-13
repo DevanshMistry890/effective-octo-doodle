@@ -1,0 +1,302 @@
+/* Snake Game Styles */
+.game-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.game-header {
+  color: white;
+  margin-bottom: 30px;
+}
+
+.game-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.game-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 0;
+}
+
+/* Game Start */
+.game-start {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.game-instructions {
+  text-align: left;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.game-instructions h3 {
+  margin-bottom: 16px;
+  color: #667eea;
+  font-size: 1.3rem;
+}
+
+.game-instructions ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.game-instructions li {
+  margin-bottom: 8px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.start-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 16px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3);
+}
+
+/* Game Info */
+.game-info {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 16px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.info-item span:first-child {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.info-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+/* Game Board Container */
+.game-board-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.game-board {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  border: 3px solid #e1e5e9;
+}
+
+.board-cell {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #f0f0f0;
+  background: #f8f9fa;
+}
+
+.snake-head {
+  background: #667eea !important;
+  border-radius: 4px;
+  border: 1px solid #5a6fd8;
+}
+
+.snake-body {
+  background: #764ba2 !important;
+  border-radius: 2px;
+  border: 1px solid #6a4190;
+}
+
+.food {
+  background: #ff6b6b !important;
+  border-radius: 50%;
+  border: 1px solid #ff5252;
+  animation: pulse 1s infinite;
+}
+
+/* Game Over */
+.game-over {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.game-over h2 {
+  color: #ff6b6b;
+  margin-bottom: 16px;
+  font-size: 2rem;
+}
+
+.game-over p {
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.play-again-button {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  color: white;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-again-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+}
+
+/* Game Controls */
+.game-controls {
+  margin-bottom: 30px;
+}
+
+.reset-button {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+/* Developer Comment */
+.developer-comment {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.developer-comment p {
+  margin: 0;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .game-container {
+    padding: 15px;
+  }
+  
+  .game-header h1 {
+    font-size: 2rem;
+  }
+  
+  .game-header p {
+    font-size: 1rem;
+  }
+  
+  .game-start {
+    padding: 30px 20px;
+  }
+  
+  .game-board {
+    padding: 15px;
+  }
+  
+  .board-cell {
+    width: 18px;
+    height: 18px;
+  }
+  
+  .game-info {
+    gap: 20px;
+  }
+  
+  .info-item {
+    padding: 12px 18px;
+  }
+  
+  .info-value {
+    font-size: 1.3rem;
+  }
+  
+  .start-button {
+    padding: 14px 28px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-board {
+    padding: 10px;
+  }
+  
+  .board-cell {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .game-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .start-button,
+  .play-again-button,
+  .reset-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+  
+  .game-instructions {
+    font-size: 0.9rem;
+  }
+}
