@@ -1,6 +1,10 @@
 /* Snake Game Styles */
 .game-container {
-  max-width: 800px;
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  align-content: center;
+  row-gap: 2vh;
   margin: 0 auto;
   padding: 0px;
   text-align: center;
@@ -109,16 +113,16 @@
   display: flex;
   justify-content: start;
   align-items: start;
-  min-height: 100% !important;
-  min-width: 100% !important;
+  width: 40vw !important;
   margin-bottom: 30px;
 }
 
 .game-board {
-  display: grid;
+  max-width: 40vw !important;
+  display: inline-grid;
   background: none;
   backdrop-filter: blur(10px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);  
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .board-cell {
@@ -226,8 +230,15 @@
 
 /* Animations */
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 /* Responsive Design */
@@ -235,40 +246,40 @@
   .game-container {
     padding: 15px;
   }
-  
+
   .game-header h1 {
     font-size: 2rem;
   }
-  
+
   .game-header p {
     font-size: 1rem;
   }
-  
+
   .game-start {
     padding: 30px 20px;
   }
-  
+
   .game-board {
     padding: 15px;
   }
-  
+
   .board-cell {
     width: 18px;
     height: 18px;
   }
-  
+
   .game-info {
     gap: 20px;
   }
-  
+
   .info-item {
     padding: 12px 18px;
   }
-  
+
   .info-value {
     font-size: 1.3rem;
   }
-  
+
   .start-button {
     padding: 14px 28px;
     font-size: 1.1rem;
@@ -279,24 +290,24 @@
   .game-board {
     padding: 10px;
   }
-  
+
   .board-cell {
     width: 16px;
     height: 16px;
   }
-  
+
   .game-info {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .start-button,
   .play-again-button,
   .reset-button {
     padding: 12px 20px;
     font-size: 1rem;
   }
-  
+
   .game-instructions {
     font-size: 0.9rem;
   }
