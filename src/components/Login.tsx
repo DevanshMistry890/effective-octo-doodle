@@ -34,7 +34,7 @@ const Login: React.FC = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>🎮 Welcome to GameHub</h2>
+        <h2>Welcome to GameHub</h2>
         <p className="auth-subtitle">Login to start playing!</p>
         
         {error && <div className="error-message">{error}</div>}
@@ -64,7 +64,7 @@ const Login: React.FC = () => {
             />
           </div>
           
-          <div className="form-group checkbox-group">
+          <div className="checkbox-group">
             <label className="checkbox-label">
               <input
                 type="checkbox"

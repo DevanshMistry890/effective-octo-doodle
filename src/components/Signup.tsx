@@ -59,7 +59,7 @@ const Signup: React.FC = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h2>🎮 Join GameHub</h2>
+        <h2>Join GameHub</h2>
         <p className="auth-subtitle">Create your account to start playing!</p>
         
         {error && <div className="error-message">{error}</div>}
@@ -113,14 +113,14 @@ const Signup: React.FC = () => {
             />
           </div>
           
-          <div className="form-group checkbox-group">
+          <div className="checkbox-group">
             <label className="checkbox-label">
               <input
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
               />
-              <span>Remember me for 7 days</span>
+              <span> Remember me for 7 days</span>
             </label>
           </div>
           

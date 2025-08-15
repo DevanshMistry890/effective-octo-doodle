@@ -2,7 +2,7 @@
 .game-container {
   max-width: 800px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 0px;
   text-align: center;
 }
 
@@ -107,17 +107,18 @@
 /* Game Board Container */
 .game-board-container {
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  align-items: start;
+  min-height: 100% !important;
+  min-width: 100% !important;
   margin-bottom: 30px;
 }
 
 .game-board {
-  background: rgba(255, 255, 255, 0.95);
+  display: grid;
+  background: none;
   backdrop-filter: blur(10px);
-  border-radius: 20px;
-  padding: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  border: 3px solid #e1e5e9;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);  
 }
 
 .board-cell {
