@@ -1,69 +1,81 @@
-# React + TypeScript + Vite
+# 🎮 Game Hub - React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project provides a minimal setup to get a React application running with **Vite**, **TypeScript**, **ESLint**, and **Hot Module Replacement (HMR)**.
 
-Currently, two official plugins are available:
+> A lightweight and scalable game discovery app built using modern frontend tooling.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Prerequisites
+Make sure you have the following installed:
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- [Node.js](https://nodejs.org/) (v16 or higher recommended)
+- npm (comes with Node.js)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Run the Development Server
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run dev
 ```
+
+The app will start locally at `http://localhost:5173` (or the next available port).
+
+---
+
+## 👨‍💻 Project Contributors
+
+This project was developed by:
+
+- **Devansh Mistry**
+- **Reecha Patel**
+- **Dhruvkumar Vikrambhai Rabari**
+
+Each page/component includes comments indicating individual contributions.
+
+---
+
+## 📁 Project Structure
+
+```
+game-hub/
+├── public/             # Static assets
+├── src/                # Source code
+│   ├── assets/         # Images, fonts, etc.
+│   ├── components/     # Reusable UI components & games 
+│   ├── contexts/       # User statemanagement
+│   ├── App.tsx         # Main App component
+│   └── main.tsx        # Vite entry point
+├── .eslint.config.js   # ESLint config
+├── tsconfig.json       # TypeScript config
+├── vite.config.ts      # Vite configuration
+└── package.json        # Project metadata and scripts
+```
+
+---
+
+## 🛠️ Built With
+
+- [React](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Vite](https://vitejs.dev/)
+- [ESLint](https://eslint.org/)
+
+---
+
+## 📌 Notes
+
+- All contributions are marked via comments within the respective files.
+
+---
+
+## 📄 License
+
+This project is open source and available under the [Apache License](LICENSE).
