@@ -3,9 +3,12 @@ import { useAuth } from '../../contexts/AuthContext';
 import Board from './board';
 import { getBestMove } from './agent';
 import { calculateWinner } from './utils';
-import './ttt.css';
+import './Game2.css';
 
 const Game2: React.FC = () => {
+
+  const { updateGameStats } = useAuth();
+
   // State to track the board and current player
   const [board, setBoard] = useState<(string | null)[]>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
@@ -13,6 +16,12 @@ const Game2: React.FC = () => {
 
   // Function to check the winner
   const winner = calculateWinner(board);
+
+  useEffect(() => {
+    if (winner) {
+      updateGameStats('game2', 'Tic Tac Toe');
+    }
+  }, [winner, updateGameStats]);
 
   // handle click
   const handleClick = (index: number) => {
@@ -77,6 +86,9 @@ const Game2: React.FC = () => {
         <button className="mode-btn" onClick={toggleAIMode}>
           {isAIMode ? 'Switch to 2 Player' : 'Play Against AI'}
         </button>
+      </div>
+      <div className="developer-comment">
+        <p>Tic Tac Toe Game Component</p>
       </div>
     </div>
   );

@@ -4,12 +4,12 @@
     grid-template-rows: repeat(4, auto);
     justify-content: center;
     align-content: center;
-    row-gap: 2vh;
+    row-gap: 1.5vh;
 }
 
 .game-board {
     display: inline-grid;
-    width: 40vw;    
+    width: 40vw;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     justify-content: center;
@@ -24,20 +24,17 @@
     font-family: inherit;
     font-size: 2rem;
     font-weight: 400;
-    color: #44476A;
-    background-color: #e6e7ee;
+    color: #001eff;
+    background-color: #ffffff;
     border-color: #e6e7ee;
-    box-shadow: 3px 3px 6px #b8b9be, -3px -3px 6px #ffffff;
     cursor: pointer;
     border-radius: 0.55rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .square:hover {
-    box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF !important;
+    box-shadow: inset 2px 2px 5px #163aed, inset -2px -2px 5px #163aed !important;
 }
-
-
 
 .game-controls {
     margin-top: 7vh;
@@ -45,19 +42,12 @@
     justify-content: space-evenly;
 }
 
-
 h1 {
-    margin-bottom: 0.5rem;
-    font-family: inherit;
-    font-weight: 400;
-    line-height: 1.3;
-    color: #31344b;
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-unit);
 }
 
 .status {
-    font-family: inherit;
-    margin-bottom: 0.5rem;
-    font-size: large;
-    font-weight: bold;
-    color: #31344b;
+    font-size: 1.2rem;
+    color: white;
 }
