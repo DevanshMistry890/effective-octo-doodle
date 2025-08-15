@@ -1,22 +1,101 @@
+:root {
+  /* Elegant & Modern Color Palette */
+  --color-primary: #6a11cb;
+  --color-secondary: #2575fc;
+  --color-accent: #ff5252;
+  --color-background: #121212;
+  --color-surface: #1e1e1e;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #b0b0b0;
+  --color-success: #4caf50;
+  --color-error: #f44336;
+
+  /* Typography */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Spacing & Sizing */
+  --spacing-unit: 8px;
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+  --border-radius-large: 16px;
+
+  /* Transitions & Animations */
+  --transition-duration-short: 200ms;
+  --transition-duration-medium: 400ms;
+  --transition-easing-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Shadows - Material Design Inspired */
+  --shadow-dp1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --shadow-dp2: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  --shadow-dp3: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  --shadow-dp4: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+  --shadow-dp5: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
 /* Global Styles */
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background: #f5f5f5;
-  overflow-x: hidden;
+html {
+  scroll-behavior: smooth;
 }
+
+body {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(ellipse at 70% 30%, var(--color-primary) 0%, transparent 50%),
+    radial-gradient(ellipse at 30% 70%, var(--color-secondary) 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: mesh-gradient 20s ease-in-out infinite;
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="10" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.1"/></svg>');
+  z-index: -1;
+  opacity: 0.1;
+}
+
+@keyframes mesh-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 
 /* Reset default styles */
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
-  font-weight: 600;
+  font-weight: var(--font-weight-bold);
   line-height: 1.2;
 }
 
@@ -29,62 +108,43 @@ ul, ol {
 }
 
 /* Focus styles for accessibility */
-*:focus {
-  outline: 2px solid #667eea;
-  outline-offset: 2px;
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+*:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: var(--border-radius-small);
 }
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--color-surface);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #667eea;
-  border-radius: 4px;
+  background: linear-gradient(var(--color-primary), var(--color-secondary));
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #5a6fd8;
+  background: linear-gradient(var(--color-secondary), var(--color-primary));
 }
 
 /* Selection styles */
 ::selection {
-  background: rgba(102, 126, 234, 0.3);
-  color: #333;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  body {
-    background: #000;
-    color: #fff;
-  }
-  
-  *:focus {
-    outline: 2px solid #fff;
-  }
+  background: rgba(37, 117, 252, 0.3);
+  color: var(--color-text-primary);
 }
 
 /* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  
-  html {
-    scroll-behavior: auto;
+    scroll-behavior: auto !important;
   }
 }
 
