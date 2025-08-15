@@ -1,3 +1,5 @@
+import { calculateWinner } from './utils';
+
 // Function to calculate the best move for the AI
 export const getBestMove = (board) => {
     let bestScore = -Infinity;
@@ -18,7 +20,7 @@ export const getBestMove = (board) => {
 };
 
 const minimax = (board, depth, isMaximizing) => {
-    const { winner } = calculateWinner(board);
+    const winner = calculateWinner(board);
 
     if (winner === 'O') return 10 - depth;
     if (winner === 'X') return depth - 10;
@@ -47,26 +49,4 @@ const minimax = (board, depth, isMaximizing) => {
         }
         return bestScore;
     }
-};
-
-// modified to object usage
-const calculateWinner = (board) => {
-    const winningLines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-
-    for (let line of winningLines) {
-        const [a, b, c] = line;
-        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-            return { winner: board[a] };
-        }
-    }
-    return { winner: null };
 };
