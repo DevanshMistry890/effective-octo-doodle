@@ -1,12 +1,16 @@
 import Cell from './cell';
+interface BoardProps {
+  board: (string | null)[];
+  onClick: (index: number) => void;
+}
 
-const Board = ({ board, onClick }) => {
+const Board: React.FC<BoardProps> = ({ board, onClick }) => {
   return (
-    <div className="board">
+    <>
       {board.map((value, index) => (
         <Cell key={index} value={value} onClick={() => onClick(index)} />
       ))}
-    </div>
+    </>
   );
 };
 

@@ -1,15 +1,14 @@
-const Cell = ({ value, onClick }) => {
+interface CellProps {
+  value: string | null;
+  onClick: () => void;
+}
 
-  let icon = null;
-  if (value === 'X') {
-    icon = 'X';
-  } else if (value === 'O') {
-    icon = <i className="far fa-circle"></i>;
-  }
-  
+const Cell: React.FC<CellProps> = ({ value, onClick }) => {
+  const cellClassName = `square ${value ? 'filled' : ''}`;
+
   return (
-    <div className="cell" onClick={onClick}>
-      {icon}
+    <div className={cellClassName} onClick={onClick}>
+      {value}
     </div>
   );
 };

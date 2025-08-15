@@ -6,7 +6,7 @@ import './ttt.css';
 
 const Game2: React.FC = () => {
   // State to track the board and current player
-  const [board, setBoard] = useState(Array(9).fill(null));
+  const [board, setBoard] = useState<(string | null)[]>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   const [isAIMode, setIsAIMode] = useState(false); // Track AI mode
 
@@ -14,7 +14,7 @@ const Game2: React.FC = () => {
   const winner = calculateWinner(board);
 
   // handle click
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     if (board[index] || winner) return;
 
     // Create a new board with the player's move
@@ -61,16 +61,20 @@ const Game2: React.FC = () => {
   };
 
   return (
-    <div className="app mb-6">
-      <h1 className='center text-center'>Tic Tac Toe</h1>
-      <div className="status text-center">{getStatus()}</div>
-      <Board board={board} onClick={handleClick} />
-      <div className='btn-bar'>
-        <button className="btn btn-primary" onClick={resetGame}>
-          <span className="fas fa-sync mr-icon mr-2"></span>Reset Game
+    <div className="game-container">
+      <div className="game-header">
+        <h1>Tic Tac Toe</h1>
+        <p>{getStatus()}</p>
+      </div>
+      <div className="game-board">
+        <Board board={board} onClick={handleClick} />
+      </div>
+      <div className="game-controls">
+        <button className="reset-button" onClick={resetGame}>
+          Reset Game
         </button>
-        <button className="btn btn-primary" onClick={toggleAIMode}>
-          {isAIMode ? 'Switch to 2 Player' : <><i className="fas fa-robot mr-icon mr-2"></i>Play Against AI</>}
+        <button className="mode-btn" onClick={toggleAIMode}>
+          {isAIMode ? 'Switch to 2 Player' : 'Play Against AI'}
         </button>
       </div>
     </div>
@@ -78,7 +82,7 @@ const Game2: React.FC = () => {
 };
 
 // winning situations
-const calculateWinner = (board) => {
+const calculateWinner = (board: (string | null)[]) => {
   const winningLines = [
     [0, 1, 2], // rows
     [3, 4, 5],
