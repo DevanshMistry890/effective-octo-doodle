@@ -1,76 +1,133 @@
 /* Main App Styles */
 .App {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: var(--font-family-sans);
 }
 
 .main-content {
-  padding-top: 80px; /* Space for fixed navbar */
-  min-height: calc(100vh - 80px);
+  padding-top: calc(var(--spacing-unit) * 10); /* 80px */
+  min-height: calc(100vh - (var(--spacing-unit) * 10));
 }
 
-/* Global Button Styles */
+/* Global Button Styles - Material Design Inspired */
 button {
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
+  border-radius: var(--border-radius-medium);
+  padding:
+    calc(var(--spacing-unit) * 1.5)  /* 12px */
+    calc(var(--spacing-unit) * 3);   /* 24px */
+  font-size: 1rem;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  background-color: rgba(255, 255, 255, 0.1);
+  transition:
+    background-color var(--transition-duration-short) var(--transition-easing-cubic),
+    box-shadow var(--transition-duration-short) var(--transition-easing-cubic);
+  box-shadow: var(--shadow-dp1);
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: var(--shadow-dp2);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 button:disabled {
   cursor: not-allowed;
-  opacity: 0.6;
-  transform: none;
+  opacity: 0.5;
   box-shadow: none;
+  background-color: rgba(255, 255, 255, 0.05);
 }
+
+/* Ripple Effect */
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 50%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+}
+
+button:active::after {
+  animation: ripple 600ms ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0) translate(-50%, -50%);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(150, 150) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
 
 /* Global Link Styles */
 a {
   text-decoration: none;
-  color: inherit;
-  transition: color 0.3s ease;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-duration-short) var(--transition-easing-cubic);
+  position: relative;
 }
 
 a:hover {
-  color: #667eea;
+  color: var(--color-text-primary);
 }
+
+a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  transition: width var(--transition-duration-medium) var(--transition-easing-cubic);
+}
+
+a:hover::after {
+  width: 100%;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .main-content {
-    padding-top: 70px;
-    min-height: calc(100vh - 70px);
+    padding-top: calc(var(--spacing-unit) * 9); /* 72px */
+    min-height: calc(100vh - (var(--spacing-unit) * 9));
   }
 }
 
 /* Accessibility Improvements */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  button:active::after {
+    animation: none;
   }
-}
 
-/* Focus styles for accessibility */
-button:focus,
-input:focus,
-a:focus {
-  outline: 2px solid #667eea;
-  outline-offset: 2px;
+  a::after {
+    transition: none;
+  }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-  .App {
-    background: #000;
-    color: #fff;
+  button {
+    border: 2px solid var(--color-text-primary);
   }
 }
