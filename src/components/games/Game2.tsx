@@ -1,236 +1,103 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import './Game2.css';
-
-type Player = 'X' | 'O' | null;
+import Board from './board';
+import { getBestMove } from './agent';
+import './ttt.css';
 
 const Game2: React.FC = () => {
-  const { updateGameStats } = useAuth();
-  const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
-  const [xIsNext, setXIsNext] = useState(true);
-  const [gameStarted, setGameStarted] = useState(false);
-  const [winner, setWinner] = useState<Player>(null);
-  const [gameMode, setGameMode] = useState<'player' | 'ai'>('ai');
+  // State to track the board and current player
+  const [board, setBoard] = useState(Array(9).fill(null));
+  const [isXNext, setIsXNext] = useState(true);
+  const [isAIMode, setIsAIMode] = useState(false); // Track AI mode
 
-  // Update game stats when game is won
-  useEffect(() => {
-    if (winner && winner !== 'draw') {
-      updateGameStats('game2', 'Tic Tac Toe');
-    }
-  }, [winner, updateGameStats]);
+  // Function to check the winner
+  const winner = calculateWinner(board);
 
-  const calculateWinner = (squares: Player[]): Player => {
-    const lines = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
-      [0, 4, 8], [2, 4, 6] // diagonals
-    ];
+  // handle click
+  const handleClick = (index) => {
+    if (board[index] || winner) return;
 
-    for (const [a, b, c] of lines) {
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
-      }
-    }
-    return null;
-  };
-
-  const isBoardFull = (squares: Player[]): boolean => {
-    return squares.every(square => square !== null);
-  };
-
-  const getBestMove = (squares: Player[]): number => {
-    let bestScore = -Infinity;
-    let bestMove = -1;
-
-    for (let i = 0; i < squares.length; i++) {
-      if (squares[i] === null) {
-        squares[i] = 'O';
-        const score = minimax(squares, 0, false);
-        squares[i] = null;
-
-        if (score > bestScore) {
-          bestScore = score;
-          bestMove = i;
-        }
-      }
-    }
-
-    return bestMove;
-  };
-
-  const minimax = (squares: Player[], depth: number, isMaximizing: boolean): number => {
-    const winner = calculateWinner(squares);
-    
-    if (winner === 'O') return 1;
-    if (winner === 'X') return -1;
-    if (isBoardFull(squares)) return 0;
-
-    if (isMaximizing) {
-      let bestScore = -Infinity;
-      for (let i = 0; i < squares.length; i++) {
-        if (squares[i] === null) {
-          squares[i] = 'O';
-          const score = minimax(squares, depth + 1, false);
-          squares[i] = null;
-          bestScore = Math.max(score, bestScore);
-        }
-      }
-      return bestScore;
-    } else {
-      let bestScore = Infinity;
-      for (let i = 0; i < squares.length; i++) {
-        if (squares[i] === null) {
-          squares[i] = 'X';
-          const score = minimax(squares, depth + 1, true);
-          squares[i] = null;
-          bestScore = Math.min(score, bestScore);
-        }
-      }
-      return bestScore;
-    }
-  };
-
-  const handleClick = (i: number) => {
-    if (board[i] || winner || !gameStarted) return;
-
+    // Create a new board with the player's move
     const newBoard = [...board];
-    newBoard[i] = 'X';
+    newBoard[index] = isXNext ? 'X' : 'O';
     setBoard(newBoard);
-    setXIsNext(false);
+    setIsXNext(!isXNext);
 
-    const newWinner = calculateWinner(newBoard);
-    if (newWinner) {
-      setWinner(newWinner);
-      return;
-    }
-
-    if (isBoardFull(newBoard)) {
-      setWinner('draw');
-      return;
-    }
-
-    // AI move
-    if (gameMode === 'ai' && !newWinner) {
-      setTimeout(() => {
-        const aiMove = getBestMove(newBoard);
-        if (aiMove !== -1) {
-          newBoard[aiMove] = 'O';
-          setBoard([...newBoard]);
-          setXIsNext(true);
-
-          const aiWinner = calculateWinner(newBoard);
-          if (aiWinner) {
-            setWinner(aiWinner);
-          } else if (isBoardFull(newBoard)) {
-            setWinner('draw');
-          }
-        }
-      }, 500);
+    // If in AI mode; make the AI move
+    if (isAIMode) {
+      setTimeout(() => { 
+      const aiMove = getBestMove(newBoard);
+      if (aiMove !== null) {
+        const updatedBoard = [...newBoard];
+        updatedBoard[aiMove] = 'O';
+        setBoard(updatedBoard);
+        setIsXNext(true);
+      }
+    }, 300); // Delay for AI's turn
     }
   };
 
-  const startGame = () => {
-    setBoard(Array(9).fill(null));
-    setXIsNext(true);
-    setWinner(null);
-    setGameStarted(true);
-    
-    // Don't update stats when starting - only when completing
-  };
-
+  // Reset Game
   const resetGame = () => {
-    setGameStarted(false);
     setBoard(Array(9).fill(null));
-    setXIsNext(true);
-    setWinner(null);
+    setIsXNext(true);
   };
 
-  const renderSquare = (i: number) => (
-    <button
-      key={i}
-      className={`square ${board[i] ? 'filled' : ''}`}
-      onClick={() => handleClick(i)}
-    >
-      {board[i]}
-    </button>
-  );
+  // Toggle AI mode
+  const toggleAIMode = () => {
+    setIsAIMode(!isAIMode);
+    resetGame();
+  };
 
+  // show game status
   const getStatus = () => {
-    if (winner === 'X') return '🎉 You win!';
-    if (winner === 'O') return '🤖 AI wins!';
-    if (winner === 'draw') return '🤝 It\'s a draw!';
-    if (!gameStarted) return 'Choose game mode and start playing!';
-    return `Next player: ${xIsNext ? 'You (X)' : 'AI (O)'}`;
+    if (winner) {
+      return `Winner: ${winner}`;
+    } else if (board.every((cell) => cell !== null)) {
+      return 'Draw!';
+    } else {
+      return `Turn of Player: ${isXNext ? 'X' : 'O'}`;
+    }
   };
 
   return (
-    <div className="game-container">
-      <div className="game-header">
-        <h1>⭕ Tic Tac Toe</h1>
-        <p>Play against the AI or another player!</p>
-      </div>
-
-      {!gameStarted ? (
-        <div className="game-setup">
-          <div className="mode-selection">
-            <h3>Select Game Mode:</h3>
-            <div className="mode-buttons">
-              <button
-                className={`mode-btn ${gameMode === 'ai' ? 'active' : ''}`}
-                onClick={() => setGameMode('ai')}
-              >
-                🧠 vs AI
-              </button>
-              <button
-                className={`mode-btn ${gameMode === 'player' ? 'active' : ''}`}
-                onClick={() => setGameMode('player')}
-              >
-                👥 vs Player
-              </button>
-            </div>
-          </div>
-          <button onClick={startGame} className="start-button">
-            Start Game
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="game-status">
-            <h2>{getStatus()}</h2>
-          </div>
-
-          <div className="game-board">
-            <div className="board-row">
-              {renderSquare(0)}
-              {renderSquare(1)}
-              {renderSquare(2)}
-            </div>
-            <div className="board-row">
-              {renderSquare(3)}
-              {renderSquare(4)}
-              {renderSquare(5)}
-            </div>
-            <div className="board-row">
-              {renderSquare(6)}
-              {renderSquare(7)}
-              {renderSquare(8)}
-            </div>
-          </div>
-
-          <div className="game-controls">
-            <button onClick={resetGame} className="reset-button">
-              New Game
-            </button>
-          </div>
-        </>
-      )}
-
-      {/* Developer comment */}
-      <div className="developer-comment">
-        <p>Tic Tac Toe Component</p>
+    <div className="app mb-6">
+      <h1 className='center text-center'>Tic Tac Toe</h1>
+      <div className="status text-center">{getStatus()}</div>
+      <Board board={board} onClick={handleClick} />
+      <div className='btn-bar'>
+        <button className="btn btn-primary" onClick={resetGame}>
+          <span className="fas fa-sync mr-icon mr-2"></span>Reset Game
+        </button>
+        <button className="btn btn-primary" onClick={toggleAIMode}>
+          {isAIMode ? 'Switch to 2 Player' : <><i className="fas fa-robot mr-icon mr-2"></i>Play Against AI</>}
+        </button>
       </div>
     </div>
   );
+};
+
+// winning situations
+const calculateWinner = (board) => {
+  const winningLines = [
+    [0, 1, 2], // rows
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6], // columns
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8], // diagonals
+    [2, 4, 6],
+  ];
+
+  // loop to go through all case
+  for (let line of winningLines) {
+    const [a, b, c] = line;
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      return board[a];
+    }
+  }
+  return null;
 };
 
 export default Game2;
