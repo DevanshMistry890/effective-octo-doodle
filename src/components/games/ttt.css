@@ -1,4 +1,4 @@
-.app {
+.game-container {
     display: grid;
     grid-template-columns: auto;
     grid-template-rows: repeat(4, auto);
@@ -7,7 +7,7 @@
     row-gap: 2vh;
 }
 
-.board {
+.game-board {
     display: inline-grid;
     width: 40vw;    
     grid-template-columns: repeat(3, 100px);
@@ -17,7 +17,7 @@
     gap: 2vh;
 }
 
-.cell {
+.square {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,13 +33,13 @@
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
-.cell:hover {
+.square:hover {
     box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #FFFFFF !important;
 }
 
 
 
-.btn-bar {
+.game-controls {
     margin-top: 7vh;
     display: flex;
     justify-content: space-evenly;
